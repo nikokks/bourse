@@ -53,3 +53,12 @@ D- faire un transformer-decoder pour predire le cours boursier apres option C
 ### LONG TERME
 E- ajouter des lstm et GRU en sortie du decoder
 F- ajouter lanalyse de sentiment de la journée precedente et courante (tout depend si l'algo vend/achete en fin/debut de journée)
+
+# TO READ 'SEARCH ON GOOGLE'
+
+- predict stock prices
+- indicators prediction
+- indicators prediction time series
+- methods for stock prices
+- methods for quantitative finance
+- algorithmic trading
