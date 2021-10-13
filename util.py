@@ -2,14 +2,17 @@ import pandas as pd
 from sklearn import preprocessing
 import numpy as np
 
-history_points = 50
+#history_points = 200
 
 
-def csv_to_dataset(csv_path):
+def csv_to_dataset(csv_path,history_points):
+
     data = pd.read_csv(csv_path)
+    #data = data.drop('timestamp', axis=1)
     data = data.drop('timestamp', axis=1)
     data = data.drop(0, axis=0)
-
+    data = data[[ 'open', 'high', 'low', 'close',
+       'volume']]
     data = data.values
 
     data_normaliser = preprocessing.MinMaxScaler()
@@ -53,7 +56,7 @@ def csv_to_dataset(csv_path):
     return ohlcv_histories_normalised, technical_indicators_normalised, next_day_open_values_normalised, next_day_open_values, y_normaliser
 
 
-def multiple_csv_to_dataset(test_set_name):
+def multiple_csv_to_dataset(test_set_name,history_points):
     import os
     ohlcv_histories = 0
     technical_indicators = 0

@@ -12,7 +12,7 @@ from util import csv_to_dataset, history_points
 
 # dataset
 
-ohlcv_histories, _, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('../data/IBM_day.csv')
+ohlcv_histories, _, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('test.csv')
 
 test_split = 0.9
 n = int(ohlcv_histories.shape[0] * test_split)

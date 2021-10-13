@@ -21,17 +21,15 @@ A stock trading bot that uses machine learning to make price predictions.
 
 [Medium Article](https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe)
 
-## Train your own model
+## Installation
 
 1. Clone the repo
 2. Pip install the requirements `pip install -r requirements.txt`
-3. Save the stock price history to a csv file `python save_data_to_csv.py --help`
-4. Edit one of the model files to accept the symbol you want
-5. Edit model architecture
-6. Edit dataset preprocessing / history_points inside util.py
-7. Train the model `python tech_ind_model.py` or `python basic_model.py`
-8. Try the trading algorithm on the newly saved model `python trading_algo.py`
 
-## License
+## Download Data
 
-[GPL-3.0](https://www.gnu.org/licenses/quick-guide-gplv3.html)
+#### A. Download daily data from 1999 to nowdays
+
+use script capture_daily.py with hyperparameter https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=P00XHSMNO0X6Z0NG&datatype=csv&outputsize=full
+
+

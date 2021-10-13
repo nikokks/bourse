@@ -3,7 +3,8 @@ from keras.models import load_model
 from util import csv_to_dataset, history_points
 
 model = load_model('technical_model.h5')
-ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('../data/IBM_day.csv')
+#model = load_model('basic_model.h5')
+ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('test.csv')
 
 test_split = 0.9
 n = int(ohlcv_histories.shape[0] * test_split)
@@ -23,7 +24,7 @@ y_test_predicted = y_normaliser.inverse_transform(y_test_predicted)
 
 buys = []
 sells = []
-thresh = 0.1
+thresh = 0.2
 
 start = 0
 end = -1
@@ -33,16 +34,18 @@ for ohlcv, ind in zip(ohlcv_test[start: end], tech_ind_test[start: end]):
     normalised_price_today = ohlcv[-1][0]
     normalised_price_today = np.array([[normalised_price_today]])
     price_today = y_normaliser.inverse_transform(normalised_price_today)
+    ohlcv = np.reshape(ohlcv,(1,200,5))
+    ind = np.reshape(ind,(1,1))
     predicted_price_tomorrow = np.squeeze(y_normaliser.inverse_transform(model.predict([[ohlcv], [ind]])))
     delta = predicted_price_tomorrow - price_today
-    if delta > thresh:
+    if delta < thresh:
         buys.append((x, price_today[0][0]))
-    elif delta < -thresh:
+    elif delta > -thresh:
         sells.append((x, price_today[0][0]))
     x += 1
 print(f"buys: {len(buys)}")
 print(f"sells: {len(sells)}")
-
+print(f'hours: {x+1}')
 
 def compute_earnings(buys_, sells_):
     purchase_amt = 10

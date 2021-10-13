@@ -8,12 +8,15 @@ np.random.seed(4)
 import tensorflow as tf
 import tensorflow
 tf.random.set_seed(4)
-from util import csv_to_dataset, history_points
+from util import csv_to_dataset
 
-
+import sys
+symbol = str(sys.argv[1])
 # dataset
 
-ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('../data/IBM_day.csv')
+history_points = int(sys.argv[2])
+
+ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('data/'+symbol+'_daily.csv',history_points)
 
 test_split = 0.9
 n = int(ohlcv_histories.shape[0] * test_split)
@@ -39,7 +42,7 @@ lstm_input = Input(shape=(history_points, 5), name='lstm_input')
 dense_input = Input(shape=(technical_indicators.shape[1],), name='tech_input')
 
 # the first branch operates on the first input
-x = LSTM(50, name='lstm_0')(lstm_input)
+x = LSTM(history_points, name='lstm_0')(lstm_input)
 x = Dropout(0.2, name='lstm_dropout_0')(x)
 lstm_branch = Model(inputs=lstm_input, outputs=x)
 
@@ -61,7 +64,7 @@ z = Dense(1, activation="linear", name='dense_out')(z)
 earlystopping = tf.keras.callbacks.EarlyStopping(
     monitor="val_loss",
     min_delta=0,
-    patience=5,
+    patience=1,
     verbose=1,
     mode="auto",
     baseline=None,
@@ -72,7 +75,7 @@ earlystopping = tf.keras.callbacks.EarlyStopping(
 model = Model(inputs=[lstm_branch.input, technical_indicators_branch.input], outputs=z)
 adam = tf.keras.optimizers.Adam(lr=0.0005)
 model.compile(optimizer=adam, loss='mse')
-model.fit(x=[ohlcv_train, tech_ind_train], y=y_train, batch_size=32, epochs=50, shuffle=True, validation_split=0.1,callbacks=[earlystopping])
+model.fit(x=[ohlcv_train, tech_ind_train], y=y_train, batch_size=32, epochs=50, shuffle=True, validation_split=0.1 ,callbacks=[earlystopping])
 
 
 # evaluation
@@ -100,8 +103,9 @@ pred = plt.plot(y_test_predicted[start:end], label='predicted')
 # pred = plt.plot(y_predicted[start:end], label='predicted')
 
 plt.legend(['Real', 'Predicted'])
-
+plt.title(str(scaled_mse))
+plt.savefig('plots/'+symbol+'pred_train_h'+str(history_points)+'.png')
 plt.show()
 
 from datetime import datetime
-model.save(f'technical_model.h5')
+model.save(f'models/technical_model_'+symbol+'_h'+str(history_points)+'.h5')
