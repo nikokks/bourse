@@ -71,3 +71,6 @@ python3.6 trading_algo.py symbol hist_data thresh
 - Depuis la relation avec les traders à la gestion des projets d'accès marchés en passant par le suivi des ISV, des memberships, de l'OMS, des onboardings en DMA / BSA, etc.
 
 
+# TO IMPLEMENT IN CODE
+* [ADX](https://python.plainenglish.io/trading-using-python-average-directional-index-adx-aeab999cffe7)
+* 

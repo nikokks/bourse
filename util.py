@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn import preprocessing
 import numpy as np
+from ADX import *
 
 #history_points = 200
 
@@ -13,13 +14,22 @@ def csv_to_dataset(csv_path,history_points):
     data = data.drop(0, axis=0)
     data = data[[ 'open', 'high', 'low', 'close',
        'volume']]
+    print('columns name',data.columns)
     data = data.values
-
+    
     data_normaliser = preprocessing.MinMaxScaler()
     data_normalised = data_normaliser.fit_transform(data)
 
     # using the last {history_points} open close high low volume data points, predict the next open value
+    ADX_3cols = ADX(data_normalised)
+    print('input shapes',data_normalised.shape,ADX_3cols.shape)
+    data_normalised = np.column_stack((data_normalised,ADX_3cols))
     ohlcv_histories_normalised = np.array([data_normalised[i:i + history_points].copy() for i in range(len(data_normalised) - history_points)])
+
+    print(ohlcv_histories_normalised.shape,'test')
+
+
+
     next_day_open_values_normalised = np.array([data_normalised[:, 0][i + history_points].copy() for i in range(len(data_normalised) - history_points)])
     next_day_open_values_normalised = np.expand_dims(next_day_open_values_normalised, -1)
 
@@ -40,15 +50,21 @@ def csv_to_dataset(csv_path,history_points):
         return ema_values[-1]
 
     technical_indicators = []
+    print('shape(ohlcv_histories)',ohlcv_histories_normalised.shape)
     for his in ohlcv_histories_normalised:
         # note since we are using his[3] we are taking the SMA of the closing price
         sma = np.mean(his[:, 3])
-        macd = calc_ema(his, 12) - calc_ema(his, 26)
-        technical_indicators.append(np.array([sma]))
-        # technical_indicators.append(np.array([sma,macd,]))
+        ema_12 = calc_ema(his, 12)
+        ema_26 = calc_ema(his, 26)
+
+        ema_20 = calc_ema(his, 20) 
+        ema_50 = calc_ema(his, 50)
+        macd_20_50 = ema_20 - ema_50
+        macd_12_26 = ema_12 - ema_26
+        #technical_indicators.append(np.array([sma]))
+        technical_indicators.append(np.array([sma,macd_20_50,ema_20,ema_50,macd_12_26]))
 
     technical_indicators = np.array(technical_indicators)
-
     tech_ind_scaler = preprocessing.MinMaxScaler()
     technical_indicators_normalised = tech_ind_scaler.fit_transform(technical_indicators)
 

@@ -6,8 +6,7 @@ import sys
 
 symbol = str(sys.argv[1])
 hist_data = int(sys.argv[2])
-thresh_neg = float(sys.argv[3])
-thresh_pos = float(sys.argv[4])
+thresh = float(sys.argv[3])
 model = load_model('models/technical_model_'+symbol+'_h'+str(hist_data)+'.h5')
 #model = load_model('basic_model.h5')
 ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('data/'+symbol+'_daily.csv',hist_data)
@@ -39,13 +38,13 @@ for ohlcv, ind in zip(ohlcv_test[start: end], tech_ind_test[start: end]):
     normalised_price_today = ohlcv[-1][0]
     normalised_price_today = np.array([[normalised_price_today]])
     price_today = y_normaliser.inverse_transform(normalised_price_today)
-    ohlcv = np.reshape(ohlcv,(1,hist_data,5))
-    ind = np.reshape(ind,(1,1))
+    ohlcv = np.reshape(ohlcv,(1,hist_data,8))
+    ind = np.reshape(ind,(1,5))
     predicted_price_tomorrow = np.squeeze(y_normaliser.inverse_transform(model.predict([[ohlcv], [ind]])))
     delta = predicted_price_tomorrow - price_today
-    if delta < thresh_pos:
+    if delta < thresh:
         buys.append((x, price_today[0][0]))
-    elif delta > -thresh_neg:
+    elif delta > -thresh:
         sells.append((x, price_today[0][0]))
     x += 1
 print(f"buys: {len(buys)}")
@@ -94,5 +93,5 @@ plt.title(str(balance))
 plt.savefig('plots/'+symbol+'pred_test_h'+str(hist_data)+'.png')
 #plt.show()
 
-#with open('results_test.csv','a') as f:
-#	f.write(symbol+','+str(hist_data)+','+str(thresh)+','+str(balance)+'\n')
+with open('results_test.csv','a') as f:
+	f.write(symbol+','+str(hist_data)+','+str(thresh)+','+str(balance)+'\n')

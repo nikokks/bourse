@@ -36,9 +36,9 @@ print(ohlcv_test.shape)
 
 
 # model architecture
-
+print('technical_indicators',technical_indicators.shape[1])
 # define two sets of inputs
-lstm_input = Input(shape=(history_points, 5), name='lstm_input')
+lstm_input = Input(shape=(history_points, 8), name='lstm_input')
 dense_input = Input(shape=(technical_indicators.shape[1],), name='tech_input')
 
 # the first branch operates on the first input
