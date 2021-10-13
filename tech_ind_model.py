@@ -64,7 +64,7 @@ z = Dense(1, activation="linear", name='dense_out')(z)
 earlystopping = tf.keras.callbacks.EarlyStopping(
     monitor="val_loss",
     min_delta=0,
-    patience=1,
+    patience=15,
     verbose=1,
     mode="auto",
     baseline=None,
@@ -75,7 +75,7 @@ earlystopping = tf.keras.callbacks.EarlyStopping(
 model = Model(inputs=[lstm_branch.input, technical_indicators_branch.input], outputs=z)
 adam = tf.keras.optimizers.Adam(lr=0.0005)
 model.compile(optimizer=adam, loss='mse')
-model.fit(x=[ohlcv_train, tech_ind_train], y=y_train, batch_size=32, epochs=50, shuffle=True, validation_split=0.1 ,callbacks=[earlystopping])
+model.fit(x=[ohlcv_train, tech_ind_train], y=y_train, batch_size=32, epochs=100, shuffle=True, validation_split=0.1 ,callbacks=[earlystopping])
 
 
 # evaluation

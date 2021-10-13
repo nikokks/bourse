@@ -1,10 +1,16 @@
 import numpy as np
 from keras.models import load_model
-from util import csv_to_dataset, history_points
+from util import csv_to_dataset
 
-model = load_model('technical_model.h5')
+import sys
+
+symbol = str(sys.argv[1])
+hist_data = int(sys.argv[2])
+thresh_neg = float(sys.argv[3])
+thresh_pos = float(sys.argv[4])
+model = load_model('models/technical_model_'+symbol+'_h'+str(hist_data)+'.h5')
 #model = load_model('basic_model.h5')
-ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('test.csv')
+ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset('data/'+symbol+'_daily.csv',hist_data)
 
 test_split = 0.9
 n = int(ohlcv_histories.shape[0] * test_split)
@@ -24,7 +30,6 @@ y_test_predicted = y_normaliser.inverse_transform(y_test_predicted)
 
 buys = []
 sells = []
-thresh = 0.2
 
 start = 0
 end = -1
@@ -34,20 +39,21 @@ for ohlcv, ind in zip(ohlcv_test[start: end], tech_ind_test[start: end]):
     normalised_price_today = ohlcv[-1][0]
     normalised_price_today = np.array([[normalised_price_today]])
     price_today = y_normaliser.inverse_transform(normalised_price_today)
-    ohlcv = np.reshape(ohlcv,(1,200,5))
+    ohlcv = np.reshape(ohlcv,(1,hist_data,5))
     ind = np.reshape(ind,(1,1))
     predicted_price_tomorrow = np.squeeze(y_normaliser.inverse_transform(model.predict([[ohlcv], [ind]])))
     delta = predicted_price_tomorrow - price_today
-    if delta < thresh:
+    if delta < thresh_pos:
         buys.append((x, price_today[0][0]))
-    elif delta > -thresh:
+    elif delta > -thresh_neg:
         sells.append((x, price_today[0][0]))
     x += 1
 print(f"buys: {len(buys)}")
 print(f"sells: {len(sells)}")
 print(f'hours: {x+1}')
-
+balance = 0
 def compute_earnings(buys_, sells_):
+    global balance
     purchase_amt = 10
     stock = 0
     balance = 0
@@ -84,5 +90,9 @@ if len(sells) > 0:
 # pred = plt.plot(y_predicted[start:end], label='predicted')
 
 plt.legend(['Real', 'Predicted', 'Buy', 'Sell'])
+plt.title(str(balance))
+plt.savefig('plots/'+symbol+'pred_test_h'+str(hist_data)+'.png')
+#plt.show()
 
-plt.show()
+#with open('results_test.csv','a') as f:
+#	f.write(symbol+','+str(hist_data)+','+str(thresh)+','+str(balance)+'\n')

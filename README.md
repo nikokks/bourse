@@ -28,8 +28,28 @@ A stock trading bot that uses machine learning to make price predictions.
 
 ## Download Data
 
-#### A. Download daily data from 1999 to nowdays
 
-use script capture_daily.py with hyperparameter https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=P00XHSMNO0X6Z0NG&datatype=csv&outputsize=full
+python3.6 capture_daily.py with hyperparameter symbol hist_data
+
+## Training model
+
+python3.6 tech_ind_model.py symbol hist_data
+
+## inference earning in trading
+
+python3.6 trading_algo.py symbol hist_data thresh
 
 
+# IDEAS TO PERFOM ALGO
+
+### COURT TERME 
+A- ajouter de le delta des bourses du meme type fermées plus tot
+B- faire les algos sur les moyenne boursieres pour voir si elles sont plus certaines
+C- [ajouter des indicateurs en input](https://www.investopedia.com/articles/active-trading/101014/basics-algorithmic-trading-concepts-and-examples.asp)
+### MOYEN TERME
+C- faire une prediction analyse multi dimensionnelle paralelle aux autres cours boursier presents en meme temps
+D- faire un transformer-decoder pour predire le cours boursier apres option C
+
+### LONG TERME
+E- ajouter des lstm et GRU en sortie du decoder
+F- ajouter lanalyse de sentiment de la journée precedente et courante (tout depend si l'algo vend/achete en fin/debut de journée)
