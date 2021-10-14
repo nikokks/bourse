@@ -39,7 +39,7 @@ for ohlcv, ind in zip(ohlcv_test[start: end], tech_ind_test[start: end]):
     normalised_price_today = np.array([[normalised_price_today]])
     price_today = y_normaliser.inverse_transform(normalised_price_today)
     ohlcv = np.reshape(ohlcv,(1,hist_data,8))
-    ind = np.reshape(ind,(1,5))
+    ind = np.reshape(ind,(1,12))
     predicted_price_tomorrow = np.squeeze(y_normaliser.inverse_transform(model.predict([[ohlcv], [ind]])))
     delta = predicted_price_tomorrow - price_today
     if delta < thresh:
@@ -51,8 +51,11 @@ print(f"buys: {len(buys)}")
 print(f"sells: {len(sells)}")
 print(f'hours: {x+1}')
 balance = 0
+minimum = 0
+index = 0
 def compute_earnings(buys_, sells_):
-    global balance
+    global balance, minimum,index
+    minimum = 0
     purchase_amt = 10
     stock = 0
     balance = 0
@@ -62,6 +65,9 @@ def compute_earnings(buys_, sells_):
             balance -= purchase_amt
             stock += purchase_amt / buys_[0][1]
             buys_.pop(0)
+            if minimum> balance:
+                minimum = balance
+                index = x
         else:
             # time to sell all of our stock
             balance += stock * sells_[0][1]
@@ -92,6 +98,6 @@ plt.legend(['Real', 'Predicted', 'Buy', 'Sell'])
 plt.title(str(balance))
 plt.savefig('plots/'+symbol+'pred_test_h'+str(hist_data)+'.png')
 #plt.show()
-
+print('minimum:',minimum,index)
 with open('results_test.csv','a') as f:
 	f.write(symbol+','+str(hist_data)+','+str(thresh)+','+str(balance)+'\n')

@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn import preprocessing
 import numpy as np
 from ADX import *
-
+from RSI import *
 #history_points = 200
 
 
@@ -16,12 +16,14 @@ def csv_to_dataset(csv_path,history_points):
        'volume']]
     print('columns name',data.columns)
     data = data.values
-    
+
     data_normaliser = preprocessing.MinMaxScaler()
     data_normalised = data_normaliser.fit_transform(data)
 
     # using the last {history_points} open close high low volume data points, predict the next open value
     ADX_3cols = ADX(data_normalised)
+    RSI =  get_rsi(data_normalised[:,3],14)
+    print('shape(RSI)',RSI.shape)
     print('input shapes',data_normalised.shape,ADX_3cols.shape)
     data_normalised = np.column_stack((data_normalised,ADX_3cols))
     ohlcv_histories_normalised = np.array([data_normalised[i:i + history_points].copy() for i in range(len(data_normalised) - history_points)])
@@ -54,15 +56,19 @@ def csv_to_dataset(csv_path,history_points):
     for his in ohlcv_histories_normalised:
         # note since we are using his[3] we are taking the SMA of the closing price
         sma = np.mean(his[:, 3])
+        sma_20 = np.mean(his[-20:,3])
+        sma_10 = np.mean(his[-10:,3])
         ema_12 = calc_ema(his, 12)
         ema_26 = calc_ema(his, 26)
-
+        diff_sma_t20 = sma - sma_20
+        diff_sma_t10 = sma - sma_10
+        diff_sma_20_10 = sma_20 - sma_10
         ema_20 = calc_ema(his, 20) 
         ema_50 = calc_ema(his, 50)
         macd_20_50 = ema_20 - ema_50
         macd_12_26 = ema_12 - ema_26
         #technical_indicators.append(np.array([sma]))
-        technical_indicators.append(np.array([sma,macd_20_50,ema_20,ema_50,macd_12_26]))
+        technical_indicators.append(np.array([sma,sma_20,sma_10,ema_12,ema_26,diff_sma_t20,diff_sma_t10,diff_sma_20_10,macd_20_50,ema_20,ema_50,macd_12_26]))
 
     technical_indicators = np.array(technical_indicators)
     tech_ind_scaler = preprocessing.MinMaxScaler()

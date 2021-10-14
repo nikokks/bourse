@@ -102,10 +102,11 @@ pred = plt.plot(y_test_predicted[start:end], label='predicted')
 # real = plt.plot(unscaled_y[start:end], label='real')
 # pred = plt.plot(y_predicted[start:end], label='predicted')
 
-plt.legend(['Real', 'Predicted'])
-plt.title(str(scaled_mse))
-plt.savefig('plots/'+symbol+'pred_train_h'+str(history_points)+'.png')
-plt.show()
+#plt.legend(['Real', 'Predicted'])
+#plt.title(str(scaled_mse))
+#plt.savefig('plots/'+symbol+'pred_train_h'+str(history_points)+'.png')
+#plt.show()
 
 from datetime import datetime
-model.save(f'models/technical_model_'+symbol+'_h'+str(history_points)+'.h5')
+#model.save(f'models/technical_model_'+symbol+'_h'+str(history_points)+'.h5')
+model.save('test.hs')

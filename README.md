@@ -43,9 +43,12 @@ python3.6 trading_algo.py symbol hist_data thresh
 # IDEAS TO PERFOM ALGO
 
 ### COURT TERME 
+* 0 - ad rs to times series , implement in RSI.py
 * A- ajouter de le delta des bourses du meme type fermées plus tot
 * B- faire les algos sur les moyenne boursieres pour voir si elles sont plus certaines
 * C- [ajouter des indicateurs en input](https://www.investopedia.com/articles/active-trading/101014/basics-algorithmic-trading-concepts-and-examples.asp)
+* D- ajouter les booleen de conditions des amx ema macd rsi des liens suivants: https://python.plainenglish.io/trading-using-python-average-directional-index-adx-aeab999cffe7
+ 
 ### MOYEN TERME
 * C- faire une prediction analyse multi dimensionnelle paralelle aux autres cours boursier presents en meme temps
 * D- faire un transformer-decoder pour predire le cours boursier apres option C
@@ -72,5 +75,21 @@ python3.6 trading_algo.py symbol hist_data thresh
 
 
 # TO IMPLEMENT IN CODE
-* [ADX](https://python.plainenglish.io/trading-using-python-average-directional-index-adx-aeab999cffe7)
-* 
+### TO DO
+* [codes_indicators](https://gist.github.com/whittlem?)
+### DONE
+* DONE [ADX](https://python.plainenglish.io/trading-using-python-average-directional-index-adx-aeab999cffe7)
+
+
+# AMELIORATIONS HYPERPARAMETRES
+* faire une recherche d'hyperparametres sur les parametres
+
+# INDICATORS DONE
+* ema
+* sma
+* adx
+* macd
+* rsi
+
+# NE PAS OUBLIER DE PREDIRE SUR LES 5 prochains mois soit 5*20
+
