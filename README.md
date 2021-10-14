@@ -43,7 +43,7 @@ python3.6 trading_algo.py symbol hist_data thresh
 # IDEAS TO PERFOM ALGO
 
 ### COURT TERME 
-* 0 - ad rs to times series , implement in RSI.py
+* 0 - ajouter la serie temporelle RS , see in RSI.py
 * A- ajouter de le delta des bourses du meme type fermées plus tot
 * B- faire les algos sur les moyenne boursieres pour voir si elles sont plus certaines
 * C- [ajouter des indicateurs en input](https://www.investopedia.com/articles/active-trading/101014/basics-algorithmic-trading-concepts-and-examples.asp)
@@ -58,7 +58,7 @@ python3.6 trading_algo.py symbol hist_data thresh
 * F- ajouter lanalyse de sentiment de la journée precedente et courante (tout depend si l'algo vend/achete en fin/debut de journée)
 
 # TO READ 'SEARCH ON GOOGLE'
-
+- best indicators for decision stock market
 - predict stock prices
 - indicators prediction
 - indicators prediction time series
