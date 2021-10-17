@@ -58,6 +58,7 @@ python3.6 trading_algo.py symbol hist_data thresh
 * F- ajouter lanalyse de sentiment de la journée precedente et courante (tout depend si l'algo vend/achete en fin/debut de journée)
 
 # TO READ 'SEARCH ON GOOGLE'
+- see [indicators on this website](https://www.alphavantage.co/documentation/)
 - best indicators for decision stock market
 - predict stock prices
 - indicators prediction

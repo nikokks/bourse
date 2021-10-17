@@ -8,7 +8,7 @@ np.random.seed(4)
 import tensorflow as tf
 import tensorflow
 tf.random.set_seed(4)
-from util import csv_to_dataset
+from src.util import csv_to_dataset
 
 import sys
 symbol = str(sys.argv[1])
@@ -75,6 +75,7 @@ earlystopping = tf.keras.callbacks.EarlyStopping(
 model = Model(inputs=[lstm_branch.input, technical_indicators_branch.input], outputs=z)
 adam = tf.keras.optimizers.Adam(lr=0.0005)
 model.compile(optimizer=adam, loss='mse')
+print(model.summary())
 model.fit(x=[ohlcv_train, tech_ind_train], y=y_train, batch_size=32, epochs=100, shuffle=True, validation_split=0.1 ,callbacks=[earlystopping])
 
 
