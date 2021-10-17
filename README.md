@@ -1,25 +1,3 @@
-# Stock Trading with Machine Learning
-
-## Overview
-
-A stock trading bot that uses machine learning to make price predictions.
-
-## Requirements
-
--   Python 3.5+
--   alpha_vantage
--   pandas
--   numpy
--   sklearn
--   keras
--   tensorflow
--   matplotlib
-
-## Documentation
-
-[Blog Post](https://yacoubahmed.me/blog/stock-prediction-ml)
-
-[Medium Article](https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe)
 
 ## Installation
 
@@ -27,7 +5,6 @@ A stock trading bot that uses machine learning to make price predictions.
 2. Pip install the requirements `pip install -r requirements.txt`
 
 ## Download Data
-
 
 python3.6 capture_daily.py with hyperparameter symbol hist_data
 
@@ -38,7 +15,6 @@ python3.6 tech_ind_model.py symbol hist_data
 ## inference earning in trading
 
 python3.6 trading_algo.py symbol hist_data thresh
-
 
 # IDEAS TO PERFOM ALGO
 
@@ -67,14 +43,6 @@ python3.6 trading_algo.py symbol hist_data thresh
 - methods for quantitative finance
 - algorithmic trading
 
-
-### SAHRABIA A DECORTIQUER
-
-- Issu d'une formation supérieure en informatique Bac+2 à Bac+5, tu maîtrises le protocole FIX, les VWAP, TWAP, les Iceberg et autres stop suiveurs. Bref la base.... et même un peu plus que la base. Dans l’idéal, tu as une expérience d’environ 3 à 10 ans soit en salle des marchés soit chez un ISV (FIS / SUNGARD, ITIVITY / ULLINK, FIDESSA ou n’importe quel autre éditeur de solution de passage d’ordre) en tant qu'ingénieur / support technique, TAM et/ou support fonctionnel.
-
-- Depuis la relation avec les traders à la gestion des projets d'accès marchés en passant par le suivi des ISV, des memberships, de l'OMS, des onboardings en DMA / BSA, etc.
-
-
 # TO IMPLEMENT IN CODE
 ### TO DO
 * [codes_indicators](https://gist.github.com/whittlem?)
@@ -82,8 +50,9 @@ python3.6 trading_algo.py symbol hist_data thresh
 * DONE [ADX](https://python.plainenglish.io/trading-using-python-average-directional-index-adx-aeab999cffe7)
 
 
-# AMELIORATIONS HYPERPARAMETRES
+# AMELIORATIONS
 * faire une recherche d'hyperparametres sur les parametres
+* faire une recherche dhyperparamter sur les threeshold pour optimiser les ventes
 
 # INDICATORS DONE
 * ema

@@ -18,7 +18,7 @@ while True:
     "symbol": symbol,
     'outputsize':'full', 
     "datatype": "csv",
-    "apikey": "IE2IUZIANAQI1KV6", # IE2IUZIANAQI1KV6 # P00XHSMNO0X6Z0NG
+    "apikey": "P00XHSMNO0X6Z0NG", # IE2IUZIANAQI1KV6 # P00XHSMNO0X6Z0NG
 	}
 			response = requests.get(API_URL, data)
 			if "Error Message" in response.text:
